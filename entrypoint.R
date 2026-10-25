@@ -123,10 +123,30 @@ write_result_bundle <- function(output_dir, arguments) {
   jsonlite::write_json(manifest, file.path(output_dir, "run_manifest.json"), auto_unbox = TRUE, pretty = TRUE)
 }
 
+output_dir <- option_value("--output_dir", args)
+if (!is.null(output_dir)) {
+  dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+  output_dir <- normalizePath(output_dir, mustWork = TRUE)
+  output_index <- which(args == "--output_dir")
+  if (length(output_index) == 1L && output_index < length(args)) {
+    args[[output_index + 1L]] <- output_dir
+  } else {
+    output_prefix <- "--output_dir="
+    inline_index <- which(startsWith(args, output_prefix))
+    if (length(inline_index) == 1L) {
+      args[[inline_index]] <- paste0(output_prefix, output_dir)
+    }
+  }
+  # The preserved plotting implementation opens a default graphics device in
+  # addition to its explicit PNG exports. Use the declared writable output
+  # directory so that incidental device state never targets read-only /app.
+  setwd(output_dir)
+}
+
 rscript <- file.path(R.home("bin"), "Rscript")
 status <- system2(rscript, args = c("--vanilla", shQuote(script_path), shQuote(args)))
-output_dir <- option_value("--output_dir", args)
 if (identical(as.integer(status), 0L) && !is.null(output_dir)) {
   write_result_bundle(output_dir, args)
+  unlink(file.path(output_dir, "Rplots.pdf"), force = TRUE)
 }
 quit(save = "no", status = as.integer(status))
