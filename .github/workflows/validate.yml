@@ -1,0 +1,32 @@
+name: Validate Gene Boxplots application
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: NIDAP-Community/OMIX
+          ref: 0ea6223129de6d98d69469027c19fa1887b59f6a
+          path: canonical-omix
+      - name: Verify pinned scientific export
+        run: |
+          set -euo pipefail
+          cmp R/Boxplot_with_Stats.R canonical-omix/modules/OMIX-Gene-Boxplots/R/Boxplot_with_Stats.R
+          cmp R/OMIX_Gene_Boxplots.R canonical-omix/modules/OMIX-Gene-Boxplots/R/OMIX_Gene_Boxplots.R
+          cmp scripts/run_gene_boxplots.R canonical-omix/modules/OMIX-Gene-Boxplots/scripts/run_gene_boxplots.R
+          cmp schemas/interface.yml canonical-omix/modules/OMIX-Gene-Boxplots/schemas/interface.yml
+          cmp module.yml canonical-omix/modules/OMIX-Gene-Boxplots/module.yml
+      - run: container/build_docker.sh gene-boxplots:ci
+      - run: container/smoke_test.sh gene-boxplots:ci
+      - run: container/parity_test.sh gene-boxplots:ci canonical-omix/modules/OMIX-Gene-Boxplots
