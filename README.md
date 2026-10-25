@@ -18,9 +18,11 @@ Raw integer counts are not valid direct input. For OncoChat, the normalized
 matrix will be a declared workflow artifact derived from the approved database
 source.
 
-The default `precomputed_deg` statistics mode also requires a compatible DEG
-result table. Alternatively, choose canonical `within_plot` or `none`
-explicitly; the application never silently changes statistical mode.
+The default `within_plot` statistics mode calculates comparisons from the
+supplied normalized expression across the selected groups. Provide a
+compatible DEG result table and explicitly choose `precomputed_deg` when
+model-consistent DEG results, rather than independent within-plot tests, are
+intended. Choose `none` to omit statistical annotations.
 
 ## Local CLI
 
@@ -28,12 +30,11 @@ explicitly; the application never silently changes statistical mode.
 Rscript entrypoint.R \
   --expression_table test_data/expression.tsv \
   --metadata_table test_data/sample_metadata.tsv \
-  --deg_table test_data/deg_results.tsv \
   --genes GeneA \
   --gene_column GeneName \
   --sample_column Sample \
   --category_column Group \
-  --statistics_mode precomputed_deg \
+  --statistics_mode within_plot \
   --output_dir results/example
 ```
 

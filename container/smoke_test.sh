@@ -10,12 +10,10 @@ output_dir="${smoke_root}/output"
 "${script_dir}/run_docker.sh" "${image}" "${project_dir}/test_data" "${output_dir}" \
   --expression_table /data/expression.tsv \
   --metadata_table /data/sample_metadata.tsv \
-  --deg_table /data/deg_results.tsv \
   --genes GeneA \
   --gene_column GeneName \
   --sample_column Sample \
   --category_column Group \
-  --statistics_mode precomputed_deg \
   --output_dir /output
 
 for artifact in \

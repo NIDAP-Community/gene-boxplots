@@ -39,7 +39,7 @@ option_list <- list(
   make_option("--sample_column", type = "character", default = "Sample"),
   make_option("--category_column", type = "character", default = "Group"),
   make_option("--categories", type = "character", default = "", help = "Optional comma-separated categories"),
-  make_option("--statistics_mode", type = "character", default = "precomputed_deg", help = "precomputed_deg, within_plot, or none [default: %default]"),
+  make_option("--statistics_mode", type = "character", default = "within_plot", help = "within_plot, precomputed_deg, or none [default: %default]"),
   make_option("--pvalue_type", type = "character", default = "nominal", help = "nominal or adjusted [default: %default]"),
   make_option("--statistical_method", type = "character", default = "anova", help = "anova, t-test, or kruskal [default: %default]"),
   make_option("--p_adjust_method", type = "character", default = "BH"),
@@ -57,7 +57,7 @@ option_list <- list(
 parser <- OptionParser(
   usage = "Usage: %prog --expression_table PATH --metadata_table PATH --genes GENE1,GENE2 [options]",
   option_list = option_list,
-  description = "Create gene-expression boxplots with model-consistent DEG annotations or independent within-plot tests."
+  description = "Create gene-expression boxplots with independent within-plot comparisons or supplied model-consistent DEG annotations."
 )
 opt <- parse_args(parser)
 

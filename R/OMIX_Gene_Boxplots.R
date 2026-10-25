@@ -158,9 +158,11 @@ omix_output_files <- function(
 #' `gene_boxplot_with_deg_results()` remain available unchanged after sourcing
 #' this file. This wrapper only maps portable inputs and standardized outputs.
 #'
-#' The canonical wrapper intentionally defaults to nominal precomputed p-values
-#' and mean aggregation for duplicate gene identifiers in normalized log-space
-#' expression. Select `duplicate_aggregation = "sum"` to reproduce the legacy
+#' The canonical wrapper intentionally defaults to independent within-plot
+#' ANOVA/Tukey comparisons and mean aggregation for duplicate gene identifiers
+#' in normalized log-space expression. Supply a compatible DEG table and set
+#' `statistics_mode = "precomputed_deg"` to use model-consistent DEG results.
+#' Select `duplicate_aggregation = "sum"` to reproduce the legacy
 #' duplicate-row behavior.
 omix_gene_boxplots <- function(
     expression_table,
@@ -170,7 +172,7 @@ omix_gene_boxplots <- function(
     sample_column = "Sample",
     category_column = "Group",
     categories = NULL,
-    statistics_mode = c("precomputed_deg", "within_plot", "none"),
+    statistics_mode = c("within_plot", "precomputed_deg", "none"),
     deg_results = NULL,
     deg_gene_column = gene_column,
     pvalue_type = c("nominal", "adjusted"),

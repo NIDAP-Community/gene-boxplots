@@ -56,7 +56,7 @@ parameters:
   statistics_mode:
     classification: public
     type: string
-    default: precomputed_deg
+    default: within_plot
     allowed: [precomputed_deg, within_plot, none]
   pvalue_type:
     classification: public
