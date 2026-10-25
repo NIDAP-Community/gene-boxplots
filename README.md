@@ -5,18 +5,12 @@ genes across declared sample groups. It is derived from the canonical
 [OMIX Gene Boxplots](https://github.com/NIDAP-Community/OMIX/tree/main/modules/OMIX-Gene-Boxplots)
 module at a pinned source commit; see [OMIX_MODULE_SOURCE.md](OMIX_MODULE_SOURCE.md).
 
-## Status
-
-This is an unpublished local derivation. It is not yet an OncoChat-enabled
-analysis or a published OCI image.
-
 ## Input contract
 
 The canonical interface requires a normalized continuous gene-by-sample
 expression table, aligned sample metadata, and one or more gene identifiers.
-Raw integer counts are not valid direct input. For OncoChat, the normalized
-matrix will be a declared workflow artifact derived from the approved database
-source.
+Raw integer counts are not valid direct input; supply values that are already
+normalized and appropriate for visualization.
 
 The default `precomputed_deg` statistics mode also requires a compatible DEG
 result table. Alternatively, choose canonical `within_plot` or `none`
@@ -55,7 +49,6 @@ writes a self-describing bundle:
 
 ## Container status
 
-The application image will build from the pinned OMIX `r-visualization` runtime
-for `linux/amd64`. The helper uses the standard read-only `/data` and writable
-`/output` mount contract. Publication is intentionally deferred until source
-parity, container, representative-data, and OncoChat acceptance gates pass.
+The application image builds from the pinned OMIX `r-visualization` runtime
+for `linux/amd64`. The helper uses a read-only `/data` and writable `/output`
+mount contract.
