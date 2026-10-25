@@ -9,6 +9,7 @@ script_path <- file.path("scripts", "run_gene_boxplots.R")
 if (!file.exists(script_path)) {
   stop("Canonical Gene Boxplots CLI is missing: ", script_path)
 }
+script_path <- normalizePath(script_path)
 
 option_value <- function(option_name, values) {
   exact_match <- which(values == option_name)
